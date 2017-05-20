@@ -38,7 +38,7 @@ BEGIN {
 
 =over 4
 
-=item * Using at XMLData
+=item * Using 
 
 	use Cfg;
 	print Dumper($cfg);
