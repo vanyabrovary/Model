@@ -1,15 +1,18 @@
-# Model
+## NAME
+
 Model - the simplest ORM implementation for Perl
 
-### DESCRIPTION
+## DESCRIPTION
 
 ORM implementation with full SQL syntax support.
 
-Contain only methods needed for CRUD. No JOIN or UNION implementation inside.
+Contain only methods needed for CRUD. 
+
+No JOIN or UNION implementation inside.
 
 Mostly old scool Perl coding style using.
 
-### EXAMPLES
+## EXAMPLES
 
 #### Create
 
@@ -35,17 +38,20 @@ $model->save();
 </pre>
 
 #### Read
+
 <pre>
 my $model = Model::FeedFileStat->load( $channel_id, 'channel_id' );
 print Dumper($model);
 </pre>	
 
 #### Read list.
+
 <pre>
 print $_->{some_field} foreach ( @{ Model::FeedFileStat->list() } )
 </pre>
 
 #### Read inner list.
+
 <pre>
 foreach ( @{ Model::FeedFileStat->list() } ){ 
 	print Dumper($_) foreach ( @{ $_->gaps() } ); 
@@ -53,19 +59,20 @@ foreach ( @{ Model::FeedFileStat->list() } ){
 </pre>	
 
 #### Delete.
+
 <pre>
 my $model = Model::FeedFileStat->load( $arg->{id} );
 $model->delete();
 </pre>
 
-### BUGS
+## BUGS
 
 newid - return bad value for MySQL.
 
-### SUPPORT
+## SUPPORT
 
 Bugs may be submitted through vanyabrovaru@gmail.com
 
-### AUTHORS
+## AUTHORS
 
 vanyabrovaru@gmail.com
