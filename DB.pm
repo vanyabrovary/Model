@@ -1,4 +1,4 @@
-package XMLData::DB;
+package DB;
 
 use warnings; use strict;
 
