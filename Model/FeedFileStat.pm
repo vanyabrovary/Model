@@ -1,10 +1,7 @@
 package Model::FeedFileStat;
 
-use warnings; use strict;
-
 use Model;
 our @ISA = qw/Model/;
-
 sub db_table() 	 {'feed_file_stat'};
 sub db_columns() { qw/id feed_file_id channel_id started_at/ };
 
