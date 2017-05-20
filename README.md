@@ -1,63 +1,69 @@
 # Model
 Model - the simplest ORM implementation for Perl
 
-## NAME
+### DESCRIPTION
 
-	Model - the simplest ORM implementation.
+ORM implementation with full SQL syntax support.
+Contain only methods needed for CRUD. No JOIN or UNION implementation inside.
+Mostly old scool Perl coding style using.
 
-## DESCRIPTION
+### EXAMPLES
 
-	ORM implementation with full SQL syntax support.
-	Contain only methods needed for CRUD. No JOIN or UNION implementation inside.
-	Mostly old scool Perl coding style using.
+#### Create
 
-## EXAMPLES
+<pre>
+my $model = Model::FeedFileStat->new($args);
+$model->save();
+</pre>
 
-* Create
+#### Update
 
-	my $model = Model::FeedFileStat->new($args);
-	$model->save();
+<pre>
+my $model = Model::FeedFileStat->load( $arg->{id}, 'id' );
+$model->{channel_id} = $channel_id;
+$model->save();
+</pre>	
 
-* Update
+Or
 
-	my $model = Model::FeedFileStat->load( $arg->{id}, 'id' );
-	$model->{channel_id} = $channel_id;
-	$model->save();
-	
-	Or
-	
-	my $model = Model::FeedFileStat->load( $arg->{id} );
-	$model->{channel_id} = $channel_id;
-	$model->save();
+<pre>	
+my $model = Model::FeedFileStat->load( $arg->{id} );
+$model->{channel_id} = $channel_id;
+$model->save();
+</pre>
 
-* Read
+#### Read
+<pre>
+my $model = Model::FeedFileStat->load( $channel_id, 'channel_id' );
+print Dumper($model);
+</pre>	
 
-	my $model = Model::FeedFileStat->load( $channel_id, 'channel_id' );
-	print Dumper($model);
-	
-* Read list.
+#### Read list.
+<pre>
+print $_->{some_field} foreach ( @{ Model::FeedFileStat->list() } )
+</pre>
 
-	print $_->{some_field} foreach ( @{ Model::FeedFileStat->list() } )
-	
-* Read inner list.
+#### Read inner list.
+<pre>
+foreach ( @{ Model::FeedFileStat->list() } ){ 
+	print Dumper($_) foreach ( @{ $_->gaps() } ); 
+}
+</pre>	
 
-	foreach ( @{ Model::FeedFileStat->list() } ){ 
-		print Dumper($_) foreach ( @{ $_->gaps() } ); 
-	}
-	
-* Delete.
+#### Delete.
+<pre>
+my $model = Model::FeedFileStat->load( $arg->{id} );
+$model->delete();
+</pre>
 
-	my $model = Model::FeedFileStat->load( $arg->{id} );
-	$model->delete();
-	
-## BUGS
+### BUGS
 
-    newid - return bad for MySQL.
+newid - return bad value for MySQL.
 
-## SUPPORT
+### SUPPORT
 
-	Bugs may be submitted through vanyabrovaru@gmail.com
+Bugs may be submitted through vanyabrovaru@gmail.com
 
-## AUTHORS
+### AUTHORS
 
-	vanyabrovaru@gmail.com
+vanyabrovaru@gmail.com
