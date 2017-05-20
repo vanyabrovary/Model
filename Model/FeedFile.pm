@@ -1,7 +1,5 @@
 package Model::FeedFile;
 
-use warnings; use strict;
-
 use Model;
 our @ISA = qw/Model/;
 sub db_table() 	 {'feed_file'};
