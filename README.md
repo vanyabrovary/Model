@@ -4,7 +4,9 @@ Model - the simplest ORM implementation for Perl
 ### DESCRIPTION
 
 ORM implementation with full SQL syntax support.
+
 Contain only methods needed for CRUD. No JOIN or UNION implementation inside.
+
 Mostly old scool Perl coding style using.
 
 ### EXAMPLES
