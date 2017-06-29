@@ -44,12 +44,30 @@ sub load() {
 }
 
 sub list() {
-    my ( $class, $val, $col ) = @_;
+    my ( $class ) = @_;
 
     eval "use $class;";
 
-    my $h = $db->prepare( "SELECT " . $class->_id . " FROM " . $class->db_table() . " WHERE " . ( $col || $class->_id ) . " = ?" );
-    $h->execute( $val || 0 );
+    my $h = $db->prepare( "SELECT " . $class->_id . " FROM " . $class->db_table() );
+    $h->execute();
+    my @b = ();
+
+    while ( my ($id) = $h->fetchrow_array ) {
+        push @b, $class->load($id);
+    }
+
+    return \@b;
+}
+
+sub list_where() {
+    my ( $class, $val, $col ) = @_;
+    
+    return 0 unless $val or $col;
+    
+    eval "use $class;";
+
+    my $h = $db->prepare( "SELECT " . $class->_id . " FROM " . $class->db_table() . " WHERE $col = ?" );
+    $h->execute( $val );
     my @b = ();
 
     while ( my ($id) = $h->fetchrow_array ) {
@@ -79,6 +97,7 @@ sub set() {
     return 1;
 }
 
+# fix for databases with TABLE_id as primary key instead id as primary key
 sub _id() {
     my ($class) = @_;   
 
