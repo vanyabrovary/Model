@@ -95,37 +95,37 @@ sub feed(){
 #### Create
 
 <pre>
-my $model = Model::FeedFileStat->new($args);
+my $model = Model::Feed->new($args);
 $model->save();
 </pre>
 
 #### Update
 
 <pre>
-my $model = Model::FeedFileStat->load( $arg->{id}, 'id' );
-$model->{channel_id} = $channel_id;
+my $model = Model::Feed->load( $arg->{id}, 'id' );
+$model->{name} = 'My new feed name';
 $model->save();
 </pre>	
 
 Or
 
 <pre>	
-my $model = Model::FeedFileStat->load( $arg->{id} );
-$model->{channel_id} = $channel_id;
+my $model = Model::Feed->load( $arg->{id} );
+$model->{name} = 'My new feed name';
 $model->save();
 </pre>
 
 #### Read
 
 <pre>
-my $model = Model::FeedFileStat->load( $channel_id, 'channel_id' );
+my $model = Model::Feed->load( $channel_id, 'channel_id' );
 print Dumper($model);
 </pre>	
 
 #### Read list.
 
 <pre>
-print $_->{some_field} foreach ( @{ Model::FeedFileStat->list() } )
+print $_->{some_field} foreach ( @{ Model::Feed->list() } )
 </pre>
 
 #### Read inner list.
