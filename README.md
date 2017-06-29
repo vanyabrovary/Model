@@ -26,7 +26,10 @@ Mostly old scool Perl coding style using.
 +---------------+
 </pre>
 
-id(ONE) to feed_id(MANY)
+feed      (ONE)
+    to
+feed_file (MANY)
+
 
 <pre>
 +---------------+
