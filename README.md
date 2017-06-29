@@ -14,6 +14,7 @@ Mostly old scool Perl coding style using.
 
 ## MODEL SAMPLE
 
+<pre>
 +---------------+
 |feed           |
 +---------------+
@@ -23,7 +24,11 @@ Mostly old scool Perl coding style using.
 |updated        |
 |created        |
 +---------------+
+</pre>
+
 ^id <-> vfeed_id 
+
+<pre>
 +---------------+
 |feed_file      |
 +---------------+
@@ -36,6 +41,7 @@ Mostly old scool Perl coding style using.
 |updated        |
 |created        |
 +---------------+
+</pre>
 
 #### feed model
 <pre>
