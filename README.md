@@ -26,7 +26,7 @@ Mostly old scool Perl coding style using.
 +---------------+
 </pre>
 
-^id <-> vfeed_id 
+id(ONE) to feed_id(MANY)
 
 <pre>
 +---------------+
