@@ -12,7 +12,7 @@ No JOIN or UNION implementation inside.
 
 Mostly old scool Perl coding style using.
 
-## MODEL SAMPLE
+## DB TABLES SAMPLE
 
 <pre>
 +---------------+
@@ -30,7 +30,6 @@ feed      (ONE)
     to
 feed_file (MANY)
 
-
 <pre>
 +---------------+
 |feed_file      |
@@ -45,6 +44,8 @@ feed_file (MANY)
 |created        |
 +---------------+
 </pre>
+
+## MODEL SAMPLE
 
 #### feed model
 <pre>
