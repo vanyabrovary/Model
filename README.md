@@ -14,7 +14,30 @@ Mostly old scool Perl coding style using.
 
 ## MODEL SAMPLE
 
-### feed model
++---------------+
+|feed           |
++---------------+
+|id             |
+|name           |
+|is_public      |
+|updated        |
+|created        |
++---------------+
+^id <-> vfeed_id 
++---------------+
+|feed_file      |
++---------------+
+|id             |
+|feed_id        |
+|name           |
+|is_public      |
+|size           |
+|for_date       |
+|updated        |
+|created        |
++---------------+
+
+#### feed model
 <pre>
 package Model::Feed;
 
@@ -35,7 +58,7 @@ sub feed_file(){
 
 </pre>
 
-### feed_file model
+#### feed_file model
 
 <pre>
 package Model::FeedFile;
@@ -106,7 +129,7 @@ foreach ( @{ Model::Feed->list() } ){
 #### Read list where.
 
 <pre>
-print $_->{some_field} foreach ( @{ Model::FeedFile->list_where($arg->{feed_id}, 'feed_id' ) } )
+print $_->{name}." ".$_->{size}." ".$_->{updated} foreach ( @{ Model::FeedFile->list_where( $arg->{feed_id}, 'feed_id' ) } )
 </pre>
 
 #### Delete.
