@@ -15,6 +15,7 @@ Mostly old scool Perl coding style using.
 ## MODEL SAMPLE
 
 ### feed model
+<pre>
 package Model::Feed;
 
 use Model;
@@ -23,7 +24,7 @@ our @ISA = qw/Model/;
 sub db_table() 	 { 'feed' };
 sub db_columns() { qw/id name is_public updated created/ };
 
-#feed files list
+
 sub feed_file(){
     my $self = shift;
     use Model::FeedFile;
@@ -32,7 +33,11 @@ sub feed_file(){
 
 1;
 
+</pre>
+
 ### feed_file model
+
+<pre>
 package Model::FeedFile;
 
 use Model;
@@ -48,8 +53,9 @@ sub feed(){
     $self->{feed} ||= Model::Feed->load( $self->{feed_id} );
 }
 
-
 1;
+
+</pre>
 
 ## REQUESTS EXAMPLES
 
@@ -92,10 +98,16 @@ print $_->{some_field} foreach ( @{ Model::FeedFileStat->list() } )
 #### Read inner list.
 
 <pre>
-foreach ( @{ Model::FeedFileStat->list() } ){ 
-	print Dumper($_) foreach ( @{ $_->gaps() } ); 
+foreach ( @{ Model::Feed->list() } ){ 
+	print Dumper($_) foreach ( @{ $_->feed_file() } ); 
 }
 </pre>	
+
+#### Read list where.
+
+<pre>
+print $_->{some_field} foreach ( @{ Model::FeedFile->list_where($arg->{feed_id}, 'feed_id' ) } )
+</pre>
 
 #### Delete.
 
