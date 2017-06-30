@@ -21,23 +21,12 @@ sub new() {
 
 sub load() {
     my ( $class, $val, $col ) = @_;
-
-    if ( $col eq 'id' ) { 
-        if ( grep /^id$/, $class->db_columns() ) { 
-            $col = 'id'; 
-        } else {
-            $col = $class->db_table() . '_id';
-        }
-    }
-
-    unless ($col) { 
-	$col = 'id'; 
-    }
-
-    return 0 unless $val;
     
+    return 0 unless $val;
+ 
+    $col = $class->_id unless $col;
+ 
     my $self = ();
-
     $self = &_fetch_from_db( $class, $col, $val );
     
     return $self;
