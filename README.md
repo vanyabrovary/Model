@@ -159,4 +159,6 @@ Bugs may be submitted through vanyabrovaru@gmail.com
 
 ## AUTHORS
 
-vanyabrovaru@gmail.com
+mobitrade.ua
+
+
