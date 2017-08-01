@@ -1,6 +1,7 @@
 package Model;
 
-use warnings; use strict;
+use warnings;
+use strict;
 
 use DB;
 
@@ -8,10 +9,11 @@ sub new() {
     my ( $class, $arg ) = @_;
     my $self = {};
 
-    if ( $arg->{ $class->_id } ) { 
+    if ( $arg->{ $class->_id } ) {
         $self = load( $class, $arg->{ $class->_id } );
-    } else { 
-        bless $self, $class; 
+    }
+    else {
+        bless $self, $class;
     }
 
     $self->set($arg);
@@ -21,21 +23,23 @@ sub new() {
 
 sub load() {
     my ( $class, $val, $col ) = @_;
-    
+
     return 0 unless $val;
- 
+
     $col = $class->_id unless $col;
- 
+
     my $self = ();
     $self = &_fetch_from_db( $class, $col, $val );
-    
+
     return $self;
 }
 
 sub list() {
-    my ( $class ) = @_;
+    my ($class) = @_;
 
-    eval "use $class;";
+    my $module = "Model/$class.pm";
+
+    require $module;
 
     my $h = $db->prepare( "SELECT " . $class->_id . " FROM " . $class->db_table() );
     $h->execute();
@@ -50,13 +54,15 @@ sub list() {
 
 sub list_where() {
     my ( $class, $val, $col ) = @_;
-    
+
     return 0 unless $val or $col;
-    
-    eval "use $class;";
+
+    my $module = "Model/$class.pm";
+
+    require $module;
 
     my $h = $db->prepare( "SELECT " . $class->_id . " FROM " . $class->db_table() . " WHERE $col = ?" );
-    $h->execute( $val );
+    $h->execute($val);
     my @b = ();
 
     while ( my ($id) = $h->fetchrow_array ) {
@@ -88,11 +94,12 @@ sub set() {
 
 # fix for databases with TABLE_id as primary key instead id as primary key
 sub _id() {
-    my ($class) = @_;   
+    my ($class) = @_;
 
     if ( grep /^id$/, $class->db_columns() ) {
         return 'id';
-    } else {
+    }
+    else {
         return $class->db_table() . '_id';
     }
 
@@ -101,14 +108,16 @@ sub _id() {
 sub _fetch_from_db() {
     my ( $cls, $col, $val ) = @_;
 
-    my $h = $db->prepare('SELECT ' . join( ',', $cls->db_columns() ) . ' FROM ' . $cls->db_table() . ' WHERE ' . $col . ' = ? ');
+    my $h = $db->prepare(
+        'SELECT ' . join( ',', $cls->db_columns() ) . ' FROM ' . $cls->db_table() . ' WHERE ' . $col . ' = ? ' );
     $h->execute($val);
     my $obj = $h->fetchrow_hashref();
 
-    if ($obj) { 
-        return bless $obj, $cls; 
-    } else { 
-        return 0; 
+    if ($obj) {
+        return bless $obj, $cls;
+    }
+    else {
+        return 0;
     }
 
 }
@@ -124,23 +133,26 @@ sub _store_in_db() {
         if ( $self->{"${key}NULL"} ) {
             push @keys,  "$key = ?";
             push @binds, undef;
-        } elsif ( $self->{$key} =~ /^[A-Z_]+\(.*\)$/ ) {
+        }
+        elsif ( $self->{$key} =~ /^[A-Z_]+\(.*\)$/ ) {
             push @keys, "$key = $self->{$key}";
-        } elsif ( $self->{$key} ne '' ) {
+        }
+        elsif ( $self->{$key} ne '' ) {
             push @keys,  "$key = ?";
             push @binds, $self->{$key};
         }
     }
     my $q = '';
 
-    if ( $self->{ $self->_id } ) { 
+    if ( $self->{ $self->_id } ) {
 
-        $q = 'UPDATE ' . $self->db_table . ' SET ' . join( ',', @keys ) . ' WHERE ' . $self->_id . ' = ?';  
-        push @binds, $self->{ $self->_id };  
+        $q = 'UPDATE ' . $self->db_table . ' SET ' . join( ',', @keys ) . ' WHERE ' . $self->_id . ' = ?';
+        push @binds, $self->{ $self->_id };
 
-    } else { 
+    }
+    else {
 
-        $q = 'INSERT ' . $self->db_table . ' SET ' . join( ',', @keys ) . ' '; 
+        $q = 'INSERT ' . $self->db_table . ' SET ' . join( ',', @keys ) . ' ';
 
     }
 
@@ -157,7 +169,6 @@ sub newid() {
     return $db->{mysql_insertid} || $self->{ $self->_id };
 }
 
-
 1;
 
 =pod
@@ -166,13 +177,13 @@ sub newid() {
 
 =head1 NAME
 
-	Model - the simplest ORM implementation.
+Model - the simplest ORM implementation.
 
 =head1 DESCRIPTION
 
-	ORM implementation with full SQL syntax support.
-	Contain only methods needed for CRUD. No JOIN or UNION implementation inside.
-	Mostly old scool Perl coding style using.
+ORM implementation with full SQL syntax support.
+Contain only methods needed for CRUD. No JOIN or UNION implementation inside.
+Mostly old scool Perl coding style using.
 
 =head1 EXAMPLES
 
@@ -180,47 +191,47 @@ sub newid() {
 
 =item * Create
 
-	my $model = Model::FeedFileStat->new($args);
-	$model->save();
+my $model = Model::FeedFileStat->new($args);
+$model->save();
 
 =item * Update
 
-	my $model = Model::FeedFileStat->load( $arg->{id}, 'id' );
-	$model->{channel_id} = $channel_id;
-	$model->save();
+my $model = Model::FeedFileStat->load( $arg->{id}, 'id' );
+$model->{channel_id} = $channel_id;
+$model->save();
 
-	Or
+Or
 
-	my $model = Model::FeedFileStat->load( $arg->{id} );
-	$model->{channel_id} = $channel_id;
-	$model->save();
+my $model = Model::FeedFileStat->load( $arg->{id} );
+$model->{channel_id} = $channel_id;
+$model->save();
 
 
 =item * Read
 
-	my $model = Model::FeedFileStat->load( $channel_id, 'channel_id' );
-	print Dumper($model);
+my $model = Model::FeedFileStat->load( $channel_id, 'channel_id' );
+print Dumper($model);
 
 =item * Read list.
 
-	print $_->{some_field} foreach ( @{ Model::FeedFileStat->list() } )
+print $_->{some_field} foreach ( @{ Model::FeedFileStat->list() } )
 
 =item * Read inner list.
 
-	foreach ( @{ Model::FeedFileStat->list() } ){ 
-		print Dumper($_) foreach ( @{ $_->gaps() } ); # if this method is implemented each row contain Model::FeedFileStatGaps
-	}
+foreach ( @{ Model::FeedFileStat->list() } ){ 
+	print Dumper($_) foreach ( @{ $_->gaps() } ); # if this method is implemented each row contain Model::FeedFileStatGaps
+}
 
 =item * Delete.
 
-	my $model = Model::FeedFileStat->load( $arg->{id} );
-	$model->delete();
+my $model = Model::FeedFileStat->load( $arg->{id} );
+$model->delete();
 
 =back
 
 =head1 BUGS
 
-    newid - return bad for MySQL.
+newid - return bad for MySQL.
 
 =head1 TODO
 
@@ -228,22 +239,24 @@ sub newid() {
 
 =item * _id 
 
-	To finish smarter. It's fast fixme now
+To finish smarter. It's fast fixme now
 
 =item * ExtModel
 	
-	Add ExtModel from Full version
+Add ExtModel from Full version
 
 =item * Replace
 	
-	Add Replace from Full version
+Add Replace from Full version
 
 =back
 
 =head1 SUPPORT
 
-	Bugs may be submitted through vanyabrovaru@gmail.com
+Bugs may be submitted through vanyabrovaru@gmail.com
 
 =head1 AUTHORS
 
-	vanyabrovaru@gmail.com
+vanyabrovaru@gmail.com
+
+=cut

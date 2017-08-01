@@ -1,6 +1,7 @@
 package Cfg;
 
-use warnings; use strict;
+use warnings;
+use strict;
 
 BEGIN {
     use Exporter;
@@ -14,7 +15,7 @@ BEGIN {
             database_host => 'host',
             database_user => 'user',
             database_pass => 'pass'
-        }
+          }
 
     );
     our $cfg = \%cfg;
@@ -28,11 +29,11 @@ BEGIN {
 
 =head1 NAME
 
-	Cfg - Global access to configuration values.
+Cfg - Global access to configuration values.
 
 =head1 DESCRIPTION
 
-	Implementation of global access to configuration values via global variable $cfg
+Implementation of global access to configuration values via global variable $cfg
 
 =head1 EXAMPLES
 
@@ -40,15 +41,17 @@ BEGIN {
 
 =item * Using 
 
-	use Cfg;
-	print Dumper($cfg);
+use Cfg;
+print Dumper($cfg);
 
 =back
 
 =head1 SUPPORT
 
-	Bugs may be submitted through vanyabrovaru@gmail.com
+Bugs may be submitted through vanyabrovaru@gmail.com
 
 =head1 AUTHORS
 
-	vanyabrovaru@gmail.com
+vanyabrovaru@gmail.com
+
+=cut

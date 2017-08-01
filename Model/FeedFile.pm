@@ -1,11 +1,15 @@
 package Model::FeedFile;
 
+use warnings;
+use strict;
+
 use Model;
 our @ISA = qw/Model/;
-sub db_table() 	 {'feed_file'};
-sub db_columns() {qw/id feed feed_file for_date fsize/};
 
-sub feed_file_stat(){
+sub db_table()   { 'feed_file' }
+sub db_columns() { qw/id feed feed_file for_date fsize/ }
+
+sub feed_file_stat() {
     my $self = shift;
 
     use Model::FeedFileStat;
