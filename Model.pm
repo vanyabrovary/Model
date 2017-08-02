@@ -41,7 +41,8 @@ sub list {
 
     require $module;
 
-    my $h = $db->prepare( "SELECT " . $class->_id . " FROM " . $class->db_table() );
+    my $h = $db->prepare( "SELECT " . $class->_id .
+        " FROM " . $class->db_table() );
     $h->execute();
     my @b = ();
 
@@ -61,7 +62,10 @@ sub list_where {
 
     require $module;
 
-    my $h = $db->prepare( "SELECT " . $class->_id . " FROM " . $class->db_table() . " WHERE $col = ?" );
+    my $h =
+        $db->prepare( "SELECT " . $class->_id .
+            " FROM " . $class->db_table() .
+            " WHERE $col = ?" );
     $h->execute($val);
     my @b = ();
 
@@ -109,7 +113,9 @@ sub _fetch_from_db {
     my ( $cls, $col, $val ) = @_;
 
     my $h = $db->prepare(
-        'SELECT ' . join( ',', $cls->db_columns() ) . ' FROM ' . $cls->db_table() . ' WHERE ' . $col . ' = ? ' );
+        'SELECT ' . join( ',', $cls->db_columns() ) .
+        ' FROM ' . $cls->db_table() .
+        ' WHERE ' . $col . ' = ? ' );
     $h->execute($val);
     my $obj = $h->fetchrow_hashref();
 
@@ -146,13 +152,16 @@ sub _store_in_db {
 
     if ( $self->{ $self->_id } ) {
 
-        $q = 'UPDATE ' . $self->db_table . ' SET ' . join( ',', @keys ) . ' WHERE ' . $self->_id . ' = ?';
+        $q = 'UPDATE ' . $self->db_table .
+        ' SET ' . join( ',', @keys ) .
+        ' WHERE ' . $self->_id . ' = ?';
         push @binds, $self->{ $self->_id };
 
     }
     else {
 
-        $q = 'INSERT ' . $self->db_table . ' SET ' . join( ',', @keys ) . ' ';
+        $q = 'INSERT ' . $self->db_table .
+        ' SET ' . join( ',', @keys ) . ' ';
 
     }
 
@@ -219,7 +228,7 @@ print $_->{some_field} foreach ( @{ Model::FeedFileStat->list() } )
 =item * Read inner list.
 
 foreach ( @{ Model::FeedFileStat->list() } ){
-print Dumper($_) foreach ( @{ $_->gaps() } ); # if this method is implemented each row contain Model::FeedFileStatGaps
+print Dumper($_) foreach ( @{ $_->gaps() } );
 }
 
 =item * Delete.
@@ -237,7 +246,7 @@ newid - return bad for MySQL.
 
 =over 4
 
-=item * _id 
+=item * _id
 
 To finish smarter. It's fast fixme now
 

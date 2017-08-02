@@ -20,7 +20,8 @@ sub feed_file_stat_gaps() {
     my $self = shift;
 
     use Model::FeedFileStatGaps;
-    $self->{feed_file_stat_gaps} ||= Model::FeedFileStatGaps->list_where( $self->{id}, 'feed_file_stat_id' );
+    $self->{feed_file_stat_gaps}
+    	||= Model::FeedFileStatGaps->list_where( $self->{id}, 'feed_file_stat_id' );
 }
 
 sub is_exists() {
@@ -68,7 +69,8 @@ mobitrade.ua
 
 =head1 COPYRIGHT AND LICENSE
 
-This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.
+This is free software; you can redistribute it and/or modify
+it under the same terms as the Perl 5 programming language system itself.
 
 =head1 HISTORY
 

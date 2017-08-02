@@ -11,7 +11,9 @@ BEGIN {
     our @ISA    = qw( Exporter );
     our @EXPORT = qw( $db );
     our $db     = DBI->connect(
-        'DBI:mysql:database=' . $cfg->{DB}->{database_name} . ';hostname=' . $cfg->{DB}->{database_host},
+        'DBI:mysql:database=' .
+        $cfg->{DB}->{database_name} . ';hostname=' .
+        $cfg->{DB}->{database_host},
         $cfg->{DB}->{database_user},
         $cfg->{DB}->{database_pass}
     );
