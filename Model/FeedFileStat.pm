@@ -21,7 +21,7 @@ sub feed_file_stat_gaps() {
 
     use Model::FeedFileStatGaps;
     $self->{feed_file_stat_gaps}
-    	||= Model::FeedFileStatGaps->list_where( $self->{id}, 'feed_file_stat_id' );
+        ||= Model::FeedFileStatGaps->list_where( $self->{id}, 'feed_file_stat_id' );
 }
 
 sub is_exists() {
