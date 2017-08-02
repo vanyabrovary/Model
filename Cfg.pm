@@ -39,7 +39,7 @@ Implementation of global access to configuration values via global variable $cfg
 
 =over 4
 
-=item * Using 
+=item * Using
 
 use Cfg;
 print Dumper($cfg);

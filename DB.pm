@@ -4,13 +4,13 @@ use warnings;
 use strict;
 
 use Cfg;
+use DBI;
 
 BEGIN {
     use Exporter;
     our @ISA    = qw( Exporter );
     our @EXPORT = qw( $db );
-    use DBI;
-    our $db = DBI->connect(
+    our $db     = DBI->connect(
         'DBI:mysql:database=' . $cfg->{DB}->{database_name} . ';hostname=' . $cfg->{DB}->{database_host},
         $cfg->{DB}->{database_user},
         $cfg->{DB}->{database_pass}
@@ -35,9 +35,9 @@ Implementation of global access to DBI MySQL connection via global variable $db
 
 =head1 REQUIRES
 
-L<DBI> 
+L<DBI>
 
-L<Cfg> 
+L<Cfg>
 
 =head1 EXAMPLES
 

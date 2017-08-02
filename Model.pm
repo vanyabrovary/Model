@@ -5,7 +5,7 @@ use strict;
 
 use DB;
 
-sub new() {
+sub new {
     my ( $class, $arg ) = @_;
     my $self = {};
 
@@ -34,7 +34,7 @@ sub load() {
     return $self;
 }
 
-sub list() {
+sub list {
     my ($class) = @_;
 
     my $module = "Model/$class.pm";
@@ -52,7 +52,7 @@ sub list() {
     return \@b;
 }
 
-sub list_where() {
+sub list_where {
     my ( $class, $val, $col ) = @_;
 
     return 0 unless $val or $col;
@@ -72,13 +72,13 @@ sub list_where() {
     return \@b;
 }
 
-sub save() {
+sub save {
     my $self = shift;
     $self->_store_in_db();
     return $self;
 }
 
-sub set() {
+sub set {
     my ( $self, $arg ) = @_;
 
     foreach my $col ( $self->db_columns ) {
@@ -93,7 +93,7 @@ sub set() {
 }
 
 # fix for databases with TABLE_id as primary key instead id as primary key
-sub _id() {
+sub _id {
     my ($class) = @_;
 
     if ( grep /^id$/, $class->db_columns() ) {
@@ -105,7 +105,7 @@ sub _id() {
 
 }
 
-sub _fetch_from_db() {
+sub _fetch_from_db {
     my ( $cls, $col, $val ) = @_;
 
     my $h = $db->prepare(
@@ -122,7 +122,7 @@ sub _fetch_from_db() {
 
 }
 
-sub _store_in_db() {
+sub _store_in_db {
     my $self  = shift;
     my @binds = ();
     my @keys  = ();
@@ -164,7 +164,7 @@ sub _store_in_db() {
     #return 1;
 }
 
-sub newid() {
+sub newid {
     my $self = shift;
     return $db->{mysql_insertid} || $self->{ $self->_id };
 }
@@ -218,8 +218,8 @@ print $_->{some_field} foreach ( @{ Model::FeedFileStat->list() } )
 
 =item * Read inner list.
 
-foreach ( @{ Model::FeedFileStat->list() } ){ 
-	print Dumper($_) foreach ( @{ $_->gaps() } ); # if this method is implemented each row contain Model::FeedFileStatGaps
+foreach ( @{ Model::FeedFileStat->list() } ){
+print Dumper($_) foreach ( @{ $_->gaps() } ); # if this method is implemented each row contain Model::FeedFileStatGaps
 }
 
 =item * Delete.
@@ -242,11 +242,11 @@ newid - return bad for MySQL.
 To finish smarter. It's fast fixme now
 
 =item * ExtModel
-	
+
 Add ExtModel from Full version
 
 =item * Replace
-	
+
 Add Replace from Full version
 
 =back

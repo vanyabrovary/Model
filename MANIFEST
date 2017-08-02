@@ -1,0 +1,11 @@
+Cfg.pm
+DB.pm
+Model.pm
+README.md
+MANIFEST
+cpanfile
+LICENSE
+Model
+Model/FeedFileStat.pm
+Model/FeedFile.pm
+Model/FeedFileStatGaps.pm
