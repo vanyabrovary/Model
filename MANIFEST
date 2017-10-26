@@ -3,7 +3,6 @@ DB.pm
 Model.pm
 README.md
 MANIFEST
-cpanfile
 LICENSE
 Model
 Model/FeedFileStat.pm
