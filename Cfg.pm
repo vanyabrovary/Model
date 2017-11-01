@@ -9,14 +9,13 @@ BEGIN {
     our @EXPORT = qw( $cfg );
 
     my %cfg = (
-
         DB => {
-            database_name => 'name',
-            database_host => 'host',
-            database_user => 'user',
-            database_pass => 'pass'
+            database_driver => 'DBI:mysql:database=', #or 'dbi:Pg:dbname='
+            database_name   => 'name',
+            database_host   => 'host',
+            database_user   => 'user',
+            database_pass   => 'pass'
           }
-
     );
     our $cfg = \%cfg;
 }

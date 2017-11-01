@@ -11,13 +11,12 @@ BEGIN {
     our @ISA    = qw( Exporter );
     our @EXPORT = qw( $db );
     our $db     = DBI->connect(
-        'DBI:mysql:database=' .
-        $cfg->{DB}->{database_name} . ';hostname=' .
+        $cfg->{DB}->{database_driver} .
+        $cfg->{DB}->{database_name}   . ';hostname=' .
         $cfg->{DB}->{database_host},
         $cfg->{DB}->{database_user},
         $cfg->{DB}->{database_pass}
     );
-
     # $db->trace( 1, '/var/log/long_dbi_trace.txt' );
 }
 
@@ -33,7 +32,7 @@ DB - Global access to DBI MySQL connection.
 
 =head1 DESCRIPTION
 
-Implementation of global access to DBI MySQL connection via global variable $db
+Implementation of global access to DBI MySQL or PostgreSQL connection via global variable $db
 
 =head1 REQUIRES
 

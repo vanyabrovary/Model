@@ -1,8 +1,7 @@
 package Model;
 
-use warnings;
+use warning;
 use strict;
-
 use DB;
 
 sub new {
@@ -41,8 +40,7 @@ sub list {
 
     require $module;
 
-    my $h = $db->prepare( "SELECT " . $class->_id .
-        " FROM " . $class->db_table() );
+    my $h = $db->prepare( "SELECT " . $class->_id . " FROM " . $class->db_table() );
     $h->execute();
     my @b = ();
 
@@ -62,10 +60,7 @@ sub list_where {
 
     require $module;
 
-    my $h =
-        $db->prepare( "SELECT " . $class->_id .
-            " FROM " . $class->db_table() .
-            " WHERE $col = ?" );
+    my $h = $db->prepare( "SELECT " . $class->_id . " FROM " . $class->db_table() . " WHERE $col = ?" );
     $h->execute($val);
     my @b = ();
 
@@ -112,10 +107,7 @@ sub _id {
 sub _fetch_from_db {
     my ( $cls, $col, $val ) = @_;
 
-    my $h = $db->prepare(
-        'SELECT ' . join( ',', $cls->db_columns() ) .
-        ' FROM ' . $cls->db_table() .
-        ' WHERE ' . $col . ' = ? ' );
+    my $h = $db->prepare('SELECT ' . join( ',', $cls->db_columns() ) . ' FROM ' . $cls->db_table() . ' WHERE ' . $col . ' = ? ' );
     $h->execute($val);
     my $obj = $h->fetchrow_hashref();
 
@@ -129,45 +121,41 @@ sub _fetch_from_db {
 }
 
 sub _store_in_db {
-    my $self  = shift;
-    my @binds = ();
-    my @keys  = ();
+    my $self         = shift;
+    my @binds        = ();
+    my @keys         = ();
+    my @keys_valuses = (); ## fix for PostgreSQL
+
     foreach my $key ( $self->db_columns ) {
         next unless defined $self->{$key};
         next if $key eq $self->_id;
-
         if ( $self->{"${key}NULL"} ) {
-            push @keys,  "$key = ?";
-            push @binds, undef;
+            push @keys,          "$key";
+            push @keys_valuses,  '?';
+            push @binds,          undef;
         }
+
         elsif ( $self->{$key} =~ /^[A-Z_]+\(.*\)$/ ) {
-            push @keys, "$key = $self->{$key}";
+            push @keys, "$key";
         }
         elsif ( $self->{$key} ne '' ) {
-            push @keys,  "$key = ?";
-            push @binds, $self->{$key};
+            push @keys,          "$key";
+            push @keys_valuses,  '?';
+            push @binds,         $self->{$key};
         }
     }
     my $q = '';
 
     if ( $self->{ $self->_id } ) {
-
-        $q = 'UPDATE ' . $self->db_table .
-        ' SET ' . join( ',', @keys ) .
-        ' WHERE ' . $self->_id . ' = ?';
+        $q = 'UPDATE ' . $self->db_table .' ( ' . join( ',', @keys ) .' ) VALUES  ( ' . join( ',', @keys_valuses ) .' ) WHERE ' . $self->_id . ' = ?';
         push @binds, $self->{ $self->_id };
-
     }
     else {
-
-        $q = 'INSERT ' . $self->db_table .
-        ' SET ' . join( ',', @keys ) . ' ';
-
+        $q = 'INSERT INTO ' . $self->db_table . ' ( ' . join( ',', @keys ) . ') VALUES ( ' . join( ',', @keys_valuses ) . ' ) ';
     }
 
     my $h = $db->prepare($q);
     $h->execute(@binds) or do { return 0; };
-
     $self->{ $self->_id } ||= $self->newid();
 
     #return 1;
