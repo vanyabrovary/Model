@@ -155,7 +155,7 @@ newid - return bad value for MySQL.
 
 ## SUPPORT
 
-Bugs may be submitted through vanyabrovaru@gmail.com
+Bugs may be submitted through email
 
 ## AUTHORS
 
